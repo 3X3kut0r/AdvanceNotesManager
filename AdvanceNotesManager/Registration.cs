@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
+﻿using AuthoRegDLL;
 namespace AdvanceNotesManager
 {
     public partial class Registration : Form
     {
+        private readonly AuthoReg auth;
+
         public Registration()
         {
             InitializeComponent();
+            auth = new AuthoReg();
         }
 
         private void linkLabelRegistration_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -29,43 +23,21 @@ namespace AdvanceNotesManager
             string login = textBox1.Text;
             string password = textBox2.Text;
             string name = textBox3.Text;
-
-            // Валидация
-            if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
-            {
-                MessageBox.Show("Введите логин и пароль");
-                return;
-            }
-
             bool isDirector = checkBox1.Checked;
-            int? directorId = null;
 
-            if (!isDirector)
-            {
-                // Получаем ID менеджера
-                directorId = UserWork.GetUserIdByLogin(login);
-                if (directorId == null)
-                {
-                    MessageBox.Show("Руководитель с таким логином не найден");
-                    return;
-                }
-            }
-
-            // Регистрация пользователя
-            bool success = UserWork.RegisterUser(login, password, isDirector, directorId, name);
+            var (success, errorMessage) = auth.Register(login, password, name, isDirector);
             if (success)
             {
-                MessageBox.Show("Пользователь успешно зарегистрирован!");
+                MessageBox.Show("Регистрация успешна!");
+                textBox1.Clear();
+                textBox2.Clear();
+                textBox3.Clear();
+                checkBox1.Checked = false;
             }
             else
             {
-                MessageBox.Show("Произошла ошибка при регистрации");
+                MessageBox.Show(errorMessage);
             }
-
-            textBox1.Clear();
-            textBox2.Clear();
-            textBox3.Clear();
-            checkBox1.Checked = false;
         }
 
         private void buttonShowPasswordRegistration_Click(object sender, EventArgs e)

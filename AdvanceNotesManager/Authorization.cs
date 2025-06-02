@@ -1,13 +1,14 @@
-using System.IO;
-
+using AuthoRegDLL;
 namespace AdvanceNotesManager
 {
     public partial class Authorization : Form
     {
+        private readonly AuthoReg auth;
         public Authorization()
         {
             InitializeComponent();
             textBox2.PasswordChar = '*';
+            auth = new AuthoReg();
         }
 
         private void linkLabelAuthorization_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -22,44 +23,25 @@ namespace AdvanceNotesManager
             string login = textBox1.Text;
             string password = textBox2.Text;
 
-            // Валидация
-            if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
-            {
-                MessageBox.Show("Введите логин и пароль.");
-                return;
-            }
-
-            // Попытка авторизовать пользователя
-            AuthorizationLib.User user = UserWork.AuthenticateUser(login, password);
-
+            var (user, errorMessage) = auth.Authenticate(login, password);
             if (user != null)
             {
-
-                // Открытие соответствующего окна в зависимости от типа пользователя
-                if (user.IsManager)
+                if (user.IsDirector)
                 {
-                    // Если это руководитель, открываем форму для руководителя
                     this.Hide();
                     Director director = new Director();
                     director.Show();
-
                 }
                 else
                 {
-                    // Если это подчиненный, открываем форму для подчиненного
                     this.Hide();
                     Worker worker = new Worker();
                     worker.Show();
-
                 }
-
-                // Закрываем текущую форму (форма авторизации)
-                this.Hide();
             }
             else
             {
-                // Неверные данные
-                MessageBox.Show("Неверный логин или пароль");
+                MessageBox.Show(errorMessage);
             }
         }
 
