@@ -9,6 +9,8 @@ namespace AdvanceNotesManager
             InitializeComponent();
             textBox2.PasswordChar = '*';
             auth = new AuthoReg();
+            // Подписываемся на событие FormClosed
+            this.FormClosed += Authorization_FormClosed;
         }
 
         private void linkLabelAuthorization_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -20,28 +22,40 @@ namespace AdvanceNotesManager
 
         private void buttonAuthorize_Click(object sender, EventArgs e)
         {
-            string login = textBox1.Text;
-            string password = textBox2.Text;
-
-            var (user, errorMessage) = auth.Authenticate(login, password);
-            if (user != null)
+            try
             {
-                if (user.IsDirector)
+                string login = textBox1.Text.Trim();
+                string password = textBox2.Text;
+
+                if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
+                {
+                    MessageBox.Show("Введите логин и пароль");
+                    return;
+                }
+
+                var (user, errorMessage) = auth.Authenticate(login, password);
+                if (user != null)
                 {
                     this.Hide();
-                    Director director = new Director();
-                    director.Show();
+                    if (user.IsDirector)
+                    {
+                        Director director = new Director(user.Id); // Передаем ID пользователя
+                        director.Show();
+                    }
+                    else
+                    {
+                        Worker worker = new Worker(user.Id); // Предполагается, что Worker также принимает ID
+                        worker.Show();
+                    }
                 }
                 else
                 {
-                    this.Hide();
-                    Worker worker = new Worker();
-                    worker.Show();
+                    MessageBox.Show(errorMessage, "Ошибка авторизации");
                 }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show(errorMessage);
+                MessageBox.Show($"Ошибка: {ex.Message}");
             }
         }
 
@@ -61,6 +75,12 @@ namespace AdvanceNotesManager
                 button1.Text = "Показать";
             }
             textBox2.Focus();
+        }
+
+        private void Authorization_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            // Закрываем приложение полностью
+            Application.Exit();
         }
     }
 }

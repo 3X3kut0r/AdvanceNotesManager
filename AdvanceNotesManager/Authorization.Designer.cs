@@ -123,6 +123,7 @@
             Name = "Authorization";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Авторизация";
+            FormClosed += Authorization_FormClosed;
             ResumeLayout(false);
             PerformLayout();
         }

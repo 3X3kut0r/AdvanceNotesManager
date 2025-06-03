@@ -31,6 +31,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Director));
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
+            label8 = new Label();
+            dateTimePicker1 = new DateTimePicker();
+            button5 = new Button();
+            button4 = new Button();
             button1 = new Button();
             comboBox2 = new ComboBox();
             comboBox1 = new ComboBox();
@@ -41,6 +45,14 @@
             textBox2 = new TextBox();
             textBox1 = new TextBox();
             tabPage2 = new TabPage();
+            dataGridView1 = new DataGridView();
+            id = new DataGridViewTextBoxColumn();
+            title = new DataGridViewTextBoxColumn();
+            description = new DataGridViewTextBoxColumn();
+            priority = new DataGridViewTextBoxColumn();
+            status = new DataGridViewTextBoxColumn();
+            assignee = new DataGridViewTextBoxColumn();
+            due_date = new DataGridViewTextBoxColumn();
             button3 = new Button();
             button2 = new Button();
             comboBox5 = new ComboBox();
@@ -49,9 +61,6 @@
             comboBox3 = new ComboBox();
             label6 = new Label();
             label5 = new Label();
-            dataGridView1 = new DataGridView();
-            button4 = new Button();
-            button5 = new Button();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
@@ -70,6 +79,8 @@
             // 
             // tabPage1
             // 
+            tabPage1.Controls.Add(label8);
+            tabPage1.Controls.Add(dateTimePicker1);
             tabPage1.Controls.Add(button5);
             tabPage1.Controls.Add(button4);
             tabPage1.Controls.Add(button1);
@@ -89,20 +100,60 @@
             tabPage1.Text = "Создание заметок";
             tabPage1.UseVisualStyleBackColor = true;
             // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            label8.Location = new Point(225, 274);
+            label8.Name = "label8";
+            label8.Size = new Size(126, 21);
+            label8.TabIndex = 12;
+            label8.Text = "Дата окончания";
+            // 
+            // dateTimePicker1
+            // 
+            dateTimePicker1.Location = new Point(13, 273);
+            dateTimePicker1.Name = "dateTimePicker1";
+            dateTimePicker1.Size = new Size(200, 23);
+            dateTimePicker1.TabIndex = 11;
+            // 
+            // button5
+            // 
+            button5.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            button5.Location = new Point(424, 369);
+            button5.Name = "button5";
+            button5.Size = new Size(260, 39);
+            button5.TabIndex = 10;
+            button5.Text = "Удалить заметку";
+            button5.UseVisualStyleBackColor = true;
+            button5.Click += buttonDeleteNote_Click;
+            // 
+            // button4
+            // 
+            button4.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            button4.Location = new Point(424, 326);
+            button4.Name = "button4";
+            button4.Size = new Size(260, 39);
+            button4.TabIndex = 9;
+            button4.Text = "Изменить заметку";
+            button4.UseVisualStyleBackColor = true;
+            button4.Click += buttonChangeNote_Click;
+            // 
             // button1
             // 
             button1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
             button1.Location = new Point(424, 284);
             button1.Name = "button1";
-            button1.Size = new Size(243, 39);
+            button1.Size = new Size(260, 39);
             button1.TabIndex = 8;
             button1.Text = "Создать заметку";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += buttonAddNote_Click;
             // 
             // comboBox2
             // 
             comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(180, 333);
+            comboBox2.Location = new Point(183, 357);
             comboBox2.Name = "comboBox2";
             comboBox2.Size = new Size(201, 23);
             comboBox2.TabIndex = 7;
@@ -110,7 +161,7 @@
             // comboBox1
             // 
             comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(6, 333);
+            comboBox1.Location = new Point(16, 357);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(141, 23);
             comboBox1.TabIndex = 6;
@@ -119,7 +170,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            label4.Location = new Point(228, 302);
+            label4.Location = new Point(228, 326);
             label4.Name = "label4";
             label4.Size = new Size(120, 21);
             label4.TabIndex = 5;
@@ -129,7 +180,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            label3.Location = new Point(32, 302);
+            label3.Location = new Point(41, 326);
             label3.Name = "label3";
             label3.Size = new Size(88, 21);
             label3.TabIndex = 4;
@@ -139,7 +190,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            label2.Location = new Point(9, 119);
+            label2.Location = new Point(9, 96);
             label2.Name = "label2";
             label2.Size = new Size(101, 21);
             label2.TabIndex = 3;
@@ -157,10 +208,10 @@
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(6, 143);
+            textBox2.Location = new Point(6, 120);
             textBox2.Multiline = true;
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(661, 126);
+            textBox2.Size = new Size(678, 126);
             textBox2.TabIndex = 1;
             // 
             // textBox1
@@ -168,11 +219,12 @@
             textBox1.Location = new Point(6, 40);
             textBox1.Multiline = true;
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(661, 44);
+            textBox1.Size = new Size(678, 44);
             textBox1.TabIndex = 0;
             // 
             // tabPage2
             // 
+            tabPage2.Controls.Add(dataGridView1);
             tabPage2.Controls.Add(button3);
             tabPage2.Controls.Add(button2);
             tabPage2.Controls.Add(comboBox5);
@@ -181,7 +233,6 @@
             tabPage2.Controls.Add(comboBox3);
             tabPage2.Controls.Add(label6);
             tabPage2.Controls.Add(label5);
-            tabPage2.Controls.Add(dataGridView1);
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
@@ -189,6 +240,71 @@
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Все заметки";
             tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView1
+            // 
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { id, title, description, priority, status, assignee, due_date });
+            dataGridView1.Location = new Point(8, 75);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.Size = new Size(676, 344);
+            dataGridView1.TabIndex = 16;
+            // 
+            // id
+            // 
+            id.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            id.HeaderText = "id";
+            id.Name = "id";
+            id.ReadOnly = true;
+            id.Width = 42;
+            // 
+            // title
+            // 
+            title.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            title.HeaderText = "title";
+            title.Name = "title";
+            title.ReadOnly = true;
+            title.Width = 52;
+            // 
+            // description
+            // 
+            description.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            description.HeaderText = "description";
+            description.Name = "description";
+            description.ReadOnly = true;
+            description.Width = 91;
+            // 
+            // priority
+            // 
+            priority.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            priority.HeaderText = "priority";
+            priority.Name = "priority";
+            priority.ReadOnly = true;
+            priority.Width = 70;
+            // 
+            // status
+            // 
+            status.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            status.HeaderText = "status";
+            status.Name = "status";
+            status.ReadOnly = true;
+            status.Width = 63;
+            // 
+            // assignee
+            // 
+            assignee.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            assignee.HeaderText = "assignee";
+            assignee.Name = "assignee";
+            assignee.ReadOnly = true;
+            assignee.Width = 77;
+            // 
+            // due_date
+            // 
+            due_date.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            due_date.HeaderText = "due_date";
+            due_date.Name = "due_date";
+            due_date.ReadOnly = true;
+            due_date.Width = 80;
             // 
             // button3
             // 
@@ -198,6 +314,7 @@
             button3.TabIndex = 15;
             button3.Text = "Отменить сортировку";
             button3.UseVisualStyleBackColor = true;
+            button3.Click += buttonUnSort_Click;
             // 
             // button2
             // 
@@ -207,6 +324,7 @@
             button2.TabIndex = 14;
             button2.Text = "Отсортировать";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += buttonSort_Click;
             // 
             // comboBox5
             // 
@@ -262,41 +380,6 @@
             label5.TabIndex = 3;
             label5.Text = "Статус";
             // 
-            // dataGridView1
-            // 
-            dataGridView1.AllowUserToAddRows = false;
-            dataGridView1.AllowUserToDeleteRows = false;
-            dataGridView1.AllowUserToResizeColumns = false;
-            dataGridView1.AllowUserToResizeRows = false;
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(5, 78);
-            dataGridView1.MultiSelect = false;
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.ReadOnly = true;
-            dataGridView1.Size = new Size(669, 341);
-            dataGridView1.TabIndex = 0;
-            // 
-            // button4
-            // 
-            button4.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            button4.Location = new Point(424, 326);
-            button4.Name = "button4";
-            button4.Size = new Size(243, 39);
-            button4.TabIndex = 9;
-            button4.Text = "Изменить заметку";
-            button4.UseVisualStyleBackColor = true;
-            // 
-            // button5
-            // 
-            button5.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            button5.Location = new Point(424, 369);
-            button5.Name = "button5";
-            button5.Size = new Size(243, 39);
-            button5.TabIndex = 10;
-            button5.Text = "Удалить заметку";
-            button5.UseVisualStyleBackColor = true;
-            // 
             // Director
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -310,6 +393,7 @@
             Name = "Director";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Личный кабинет директора";
+            FormClosed += Director_FormClosed;
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();
@@ -341,8 +425,17 @@
         private ComboBox comboBox3;
         private Label label6;
         private Label label5;
-        private DataGridView dataGridView1;
         private Button button5;
         private Button button4;
+        private DateTimePicker dateTimePicker1;
+        private DataGridView dataGridView1;
+        private DataGridViewTextBoxColumn id;
+        private DataGridViewTextBoxColumn title;
+        private DataGridViewTextBoxColumn description;
+        private DataGridViewTextBoxColumn priority;
+        private DataGridViewTextBoxColumn status;
+        private DataGridViewTextBoxColumn assignee;
+        private DataGridViewTextBoxColumn due_date;
+        private Label label8;
     }
 }

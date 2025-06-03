@@ -157,6 +157,7 @@
             Name = "Registration";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Регистрация";
+            FormClosed += Registration_FormClosed;
             ResumeLayout(false);
             PerformLayout();
         }

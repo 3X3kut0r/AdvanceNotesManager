@@ -9,6 +9,8 @@ namespace AdvanceNotesManager
         {
             InitializeComponent();
             auth = new AuthoReg();
+            // Подписываемся на событие FormClosed
+            this.FormClosed += Registration_FormClosed;
         }
 
         private void linkLabelRegistration_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -56,6 +58,12 @@ namespace AdvanceNotesManager
                 button1.Text = "Показать";
             }
             textBox2.Focus();
+        }
+
+        private void Registration_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            // Закрываем приложение полностью
+            Application.Exit();
         }
     }
 }
