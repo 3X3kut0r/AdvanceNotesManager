@@ -1,9 +1,17 @@
 using AuthoRegDLL;
 namespace AdvanceNotesManager
 {
+    /// <summary>
+    /// Форма для авторизации пользователей в системе.
+    /// </summary>
     public partial class Authorization : Form
     {
         private readonly AuthoReg auth;
+
+        /// <summary>
+        /// Конструктор формы авторизации.
+        /// Инициализирует компоненты формы, задает символ маскировки пароля и подписывается на событие закрытия формы.
+        /// </summary>
         public Authorization()
         {
             InitializeComponent();
@@ -13,6 +21,11 @@ namespace AdvanceNotesManager
             this.FormClosed += Authorization_FormClosed;
         }
 
+        /// <summary>
+        /// Обработчик клика по ссылке для перехода к форме регистрации.
+        /// </summary>
+        /// <param name="sender">Объект, вызвавший событие.</param>
+        /// <param name="e">Аргументы события клика по ссылке.</param>
         private void linkLabelAuthorization_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Registration registration = new Registration();
@@ -20,6 +33,12 @@ namespace AdvanceNotesManager
             this.Hide();
         }
 
+        /// <summary>
+        /// Обработчик клика по кнопке авторизации.
+        /// Выполняет проверку введенных данных и перенаправляет пользователя на соответствующую форму (Director или Worker).
+        /// </summary>
+        /// <param name="sender">Объект, вызвавший событие.</param>
+        /// <param name="e">Аргументы события клика.</param>
         private void buttonAuthorize_Click(object sender, EventArgs e)
         {
             try
@@ -27,13 +46,13 @@ namespace AdvanceNotesManager
                 string login = textBox1.Text.Trim();
                 string password = textBox2.Text;
 
-                if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
+                if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password)) // Проверка, что логин и пароль не пустые
                 {
                     MessageBox.Show("Введите логин и пароль");
                     return;
                 }
 
-                var (user, errorMessage) = auth.Authenticate(login, password);
+                var (user, errorMessage) = auth.Authenticate(login, password); // Вызов метода аутентификации
                 if (user != null)
                 {
                     this.Hide();
@@ -59,6 +78,11 @@ namespace AdvanceNotesManager
             }
         }
 
+        /// <summary>
+        /// Обработчик клика по кнопке для переключения видимости пароля.
+        /// </summary>
+        /// <param name="sender">Объект, вызвавший событие.</param>
+        /// <param name="e">Аргументы события клика.</param>
         private void buttonShowPasswordAuthorization_Click(object sender, EventArgs e)
         {
             // Переключение между скрытым и открытым текстом
@@ -77,6 +101,12 @@ namespace AdvanceNotesManager
             textBox2.Focus();
         }
 
+        /// <summary>
+        /// Обработчик события закрытия формы.
+        /// Завершает работу приложения при закрытии формы.
+        /// </summary>
+        /// <param name="sender">Объект, вызвавший событие.</param>
+        /// <param name="e">Аргументы события закрытия формы.</param>
         private void Authorization_FormClosed(object sender, FormClosedEventArgs e)
         {
             // Закрываем приложение полностью
