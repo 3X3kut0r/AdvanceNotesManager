@@ -11,8 +11,7 @@ namespace AdvanceNotesManager
     {
         private readonly Database db;
         private readonly int DirectorId;
-        private readonly NpgsqlConnection connString = new NpgsqlConnection("Server=localhost;Port=5432;UserId=postgres;Password=123;Database=advancenotesmanager");
-
+        
         /// <summary>
         /// Конструктор формы для руководителя.
         /// Инициализирует компоненты, загружает данные и настраивает элементы управления.
@@ -43,7 +42,7 @@ namespace AdvanceNotesManager
         private void LoadEmployees()
         {
             // Загружаем сотрудников (не руководителей) в comboBoxWorker
-            using (var conn = new NpgsqlConnection(connString.ConnectionString))
+            using (var conn = new NpgsqlConnection(db.connString.ConnectionString))
             {
                 conn.Open();
                 using (var cmd = new NpgsqlCommand("SELECT id, full_name FROM users_data WHERE is_director = FALSE", conn))
@@ -81,13 +80,13 @@ namespace AdvanceNotesManager
             foreach (DataRow row in dt.Rows)
             {
                 dataGridView1.Rows.Add(
-                    row["id"], // id
-                    row["title"], // title
-                    row["description"] == DBNull.Value ? "" : row["description"], // description
-                    row["priority"], // priority
-                    row["status"], // status
+                    row["id"],
+                    row["title"],
+                    row["description"] == DBNull.Value ? "" : row["description"],
+                    row["priority"],
+                    row["status"],
                     row["full_name"] == DBNull.Value ? "" : row["full_name"], // assignee
-                    row["due_date"] == DBNull.Value ? "" : Convert.ToDateTime(row["due_date"]).ToString("yyyy-MM-dd") // due_date
+                    row["due_date"] == DBNull.Value ? "" : Convert.ToDateTime(row["due_date"]).ToString("yyyy-MM-dd")
                 );
             }
         }
