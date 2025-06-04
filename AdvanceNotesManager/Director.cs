@@ -29,6 +29,7 @@ namespace AdvanceNotesManager
             // Заполнение выпадающих списков для приоритета и статуса
             comboBox1.Items.AddRange(new[] { "Низкий", "Средний", "Высокий" });
             comboBox3.Items.AddRange(new[] { "В работе", "Выполнено", "Отказано", "Провалено" });
+            comboBox6.Items.AddRange(new[] { "В работе", "Выполнено", "Отказано", "Провалено" });
             comboBox4.Items.AddRange(new[] { "Низкий", "Средний", "Высокий" });
             // Подписка на событие изменения выбора в DataGridView1
             dataGridView1.SelectionChanged += dataGridView1_SelectionChanged;
@@ -169,14 +170,15 @@ namespace AdvanceNotesManager
                 string title = textBox1.Text.Trim();
                 string description = textBox2.Text.Trim();
                 string priority = comboBox1.SelectedItem?.ToString();
+                string status = comboBox6.SelectedItem?.ToString();
                 int? assigneeId = comboBox2.SelectedItem != null ? (int?)((dynamic)comboBox2.SelectedItem).Id : null;
                 DateTime? dueDate = dateTimePicker1.Value;
 
                 // Проверка всех полей
                 if (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(description) ||
-                    string.IsNullOrEmpty(priority) || assigneeId == null || dueDate == null)
+                    string.IsNullOrEmpty(priority) || string.IsNullOrEmpty(status) || assigneeId == null || dueDate == null)
                 {
-                    MessageBox.Show("Все поля (название, описание, приоритет, ответственный, дата выполнения) обязательны");
+                    MessageBox.Show("Все поля (название, описание, приоритет, статус, ответственный, дата выполнения) обязательны");
                     return;
                 }
 
@@ -187,7 +189,7 @@ namespace AdvanceNotesManager
                     return;
                 }
 
-                bool success = db.UpdateNote(noteId, title, description, priority, assigneeId, dueDate); // Метод обновления заметки
+                bool success = db.UpdateNote(noteId, title, description, priority, status, assigneeId, dueDate); // Метод обновления заметки
                 if (success)
                 {
                     MessageBox.Show("Заметка успешно обновлена");
@@ -268,7 +270,9 @@ namespace AdvanceNotesManager
                     textBox1.Text = selectedRow.Cells["title"].Value?.ToString() ?? "";
                     textBox2.Text = selectedRow.Cells["description"].Value?.ToString() ?? "";
                     string priority = selectedRow.Cells["priority"].Value?.ToString();
+                    string status = selectedRow.Cells["status"].Value?.ToString();
                     comboBox1.SelectedItem = !string.IsNullOrEmpty(priority) ? priority : null;
+                    comboBox6.SelectedItem = !string.IsNullOrEmpty (status) ? status : null;
 
                     // Устанавливаем ответственного в comboBoxWorker
                     string assigneeName = selectedRow.Cells["assignee"].Value?.ToString();

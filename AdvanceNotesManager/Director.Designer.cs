@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Director));
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
+            comboBox6 = new ComboBox();
             label8 = new Label();
             dateTimePicker1 = new DateTimePicker();
             button5 = new Button();
@@ -61,6 +62,7 @@
             comboBox3 = new ComboBox();
             label6 = new Label();
             label5 = new Label();
+            label9 = new Label();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
@@ -79,6 +81,8 @@
             // 
             // tabPage1
             // 
+            tabPage1.Controls.Add(label9);
+            tabPage1.Controls.Add(comboBox6);
             tabPage1.Controls.Add(label8);
             tabPage1.Controls.Add(dateTimePicker1);
             tabPage1.Controls.Add(button5);
@@ -99,6 +103,14 @@
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Создание заметок";
             tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // comboBox6
+            // 
+            comboBox6.FormattingEnabled = true;
+            comboBox6.Location = new Point(13, 396);
+            comboBox6.Name = "comboBox6";
+            comboBox6.Size = new Size(141, 23);
+            comboBox6.TabIndex = 13;
             // 
             // label8
             // 
@@ -153,7 +165,7 @@
             // comboBox2
             // 
             comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(183, 357);
+            comboBox2.Location = new Point(178, 342);
             comboBox2.Name = "comboBox2";
             comboBox2.Size = new Size(201, 23);
             comboBox2.TabIndex = 7;
@@ -161,7 +173,7 @@
             // comboBox1
             // 
             comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(16, 357);
+            comboBox1.Location = new Point(13, 342);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(141, 23);
             comboBox1.TabIndex = 6;
@@ -170,7 +182,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            label4.Location = new Point(228, 326);
+            label4.Location = new Point(223, 311);
             label4.Name = "label4";
             label4.Size = new Size(120, 21);
             label4.TabIndex = 5;
@@ -180,7 +192,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            label3.Location = new Point(41, 326);
+            label3.Location = new Point(38, 311);
             label3.Name = "label3";
             label3.Size = new Size(88, 21);
             label3.TabIndex = 4;
@@ -380,6 +392,16 @@
             label5.TabIndex = 3;
             label5.Text = "Статус";
             // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            label9.Location = new Point(53, 372);
+            label9.Name = "label9";
+            label9.Size = new Size(57, 21);
+            label9.TabIndex = 14;
+            label9.Text = "Статус";
+            // 
             // Director
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -437,5 +459,7 @@
         private DataGridViewTextBoxColumn assignee;
         private DataGridViewTextBoxColumn due_date;
         private Label label8;
+        private ComboBox comboBox6;
+        private Label label9;
     }
 }

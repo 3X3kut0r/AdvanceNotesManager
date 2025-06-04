@@ -1,6 +1,5 @@
 ﻿using AuthoRegDLL;
 using Npgsql;
-using System.Text;
 namespace AuthoRegDLLTests
 {
     /// <summary>
@@ -23,6 +22,7 @@ namespace AuthoRegDLLTests
         [ClassInitialize]
         public static void Setup(TestContext context)
         {
+            var authoReg = new AuthoReg();
             using var conn = new NpgsqlConnection(ConnectionString);
             conn.Open();
             // Очистка тестовых пользователей
@@ -34,7 +34,7 @@ namespace AuthoRegDLLTests
                 "INSERT INTO users_data (login, hashed_password, role, full_name, is_director) " +
                 "VALUES (@login, @hashed_password, @role, @full_name, @is_director)", conn);
             insert.Parameters.AddWithValue("login", TestLogin);
-            insert.Parameters.AddWithValue("hashed_password", ComputeHash(TestPassword));
+            insert.Parameters.AddWithValue("hashed_password", authoReg.HashPassword(TestPassword));
             insert.Parameters.AddWithValue("role", "director");
             insert.Parameters.AddWithValue("full_name", TestFullName);
             insert.Parameters.AddWithValue("is_director", true);
@@ -355,8 +355,8 @@ namespace AuthoRegDLLTests
         {
             var authoReg = new AuthoReg();
             string password = TestPassword;
-            string hash1 = ComputeHash(password);
-            string hash2 = ComputeHash(password);
+            string hash1 = authoReg.HashPassword(password);
+            string hash2 = authoReg.HashPassword(password);
             Assert.AreEqual(hash1, hash2, "Ожидалось, что одинаковые пароли дают одинаковый хэш");
         }
 
@@ -369,30 +369,9 @@ namespace AuthoRegDLLTests
         public void TC23_HashPassword_DifferentInput()
         {
             var authoReg = new AuthoReg();
-            string hash1 = ComputeHash("Pass1!");
-            string hash2 = ComputeHash("Pass2!");
+            string hash1 = authoReg.HashPassword("Pass1!");
+            string hash2 = authoReg.HashPassword("Pass2!");
             Assert.AreNotEqual(hash1, hash2, "Ожидалось, что разные пароли дают разные хэши");
-        }
-
-        /// <summary>
-        /// Вспомогательный метод для вычисления SHA256-хеша пароля.
-        /// Преобразует входную строку в байты, вычисляет хеш и возвращает его в виде шестнадцатеричной строки.
-        /// </summary>
-        /// <param name="password">Пароль для хеширования.</param>
-        /// <returns>Хеш пароля в виде строки.</returns>
-        private static string ComputeHash(string password)
-        {
-            using (System.Security.Cryptography.SHA256 sha256 = System.Security.Cryptography.SHA256.Create())
-            {
-                byte[] bytes = System.Text.Encoding.UTF8.GetBytes(password);
-                byte[] hash = sha256.ComputeHash(bytes);
-                StringBuilder builder = new StringBuilder();
-                foreach (byte b in hash)
-                {
-                    builder.Append(b.ToString("x2"));
-                }
-                return builder.ToString();
-            }
         }
     }
 }
